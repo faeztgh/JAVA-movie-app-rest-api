@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static com.faez.demo.common.constants.ApiRoutes.REFRESH_TOKEN_API;
+import static com.faez.demo.routes.ApiRoutes.REFRESH_TOKEN_API;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @RestController

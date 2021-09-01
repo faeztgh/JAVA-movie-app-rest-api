@@ -21,9 +21,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.faez.demo.common.constants.ApiRoutes.LOGIN_API;
-import static com.faez.demo.common.constants.ApiRoutes.REFRESH_TOKEN_API;
 import static com.faez.demo.common.constants.Constants.JWT_SECRET;
+import static com.faez.demo.routes.ApiRoutes.LOGIN_API;
+import static com.faez.demo.routes.ApiRoutes.REFRESH_TOKEN_API;
 import static java.util.Arrays.stream;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
@@ -33,7 +33,9 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
  * @author unknown
  */
 @Slf4j
+
 public class CustomAuthorizationFilter extends OncePerRequestFilter {
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         if (request.getServletPath().equals(LOGIN_API) || request.getServletPath().equals(REFRESH_TOKEN_API)) {

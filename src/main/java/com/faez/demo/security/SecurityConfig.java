@@ -14,7 +14,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import static com.faez.demo.common.constants.ApiRoutes.*;
+import static com.faez.demo.routes.ApiRoutes.*;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
@@ -41,12 +41,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         customAuthenticationFilter.setFilterProcessesUrl(LOGIN_API);
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(STATELESS);
-        http.authorizeRequests().antMatchers(LOGIN_API + "/**", REFRESH_TOKEN_API + "/**").permitAll();
+        http.authorizeRequests().antMatchers(AUTH_API + "/**").permitAll();
         http.authorizeRequests().antMatchers(GET, USERS_API + "/**").hasAuthority("ROLE_USER");
         http.authorizeRequests().antMatchers(POST, USERS_API + "/**").hasAuthority("ROLE_USER");
         http.authorizeRequests().anyRequest().authenticated();
         http.addFilter(customAuthenticationFilter);
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+
     }
 
     @Bean
