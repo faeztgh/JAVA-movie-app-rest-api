@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.faez.demo.common.constants.Constants.JWT_SECRET;
+import static com.faez.demo.common.constants.Constant.JWT_SECRET;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -41,12 +41,9 @@ public class AuthServiceImpl implements IAuthService {
             String username = decodedJWT.getSubject();
             User user = userService.getUser(username);
 
-            String access_token = JWT.create()
-                    .withSubject(user.getUsername())
-                    .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000))
-                    .withIssuer(request.getRequestURL().toString())
-                    .withClaim("roles", user.getRoles().stream().map(Role::getName).collect(Collectors.toList()))
-                    .sign(algorithm);
+            Date accessTokenExpiration = new Date(System.currentTimeMillis() + 10 * 160 * 1000);
+            String issuer = request.getRequestURL().toString();
+            String access_token = createAccessToken(user, issuer, algorithm, accessTokenExpiration);
 
             Map<String, String> tokens = new HashMap<>();
             tokens.put("access_token", access_token);
@@ -64,12 +61,20 @@ public class AuthServiceImpl implements IAuthService {
         log.error("Error Logging in: {}", exception.getMessage());
         response.setHeader("error", exception.getMessage());
         response.setStatus(FORBIDDEN.value());
-                    response.sendError(FORBIDDEN.value());
+        response.sendError(FORBIDDEN.value(), exception.getMessage());
         Map<String, String> error = new HashMap<>();
         error.put("error_message", exception.getMessage());
         response.setContentType(APPLICATION_JSON_VALUE);
         new ObjectMapper().writeValue(response.getOutputStream(), error);
     }
 
+    private String createAccessToken(User user, String issuer, Algorithm algorithm, Date expirationDate) {
+        return JWT.create()
+                .withSubject(user.getUsername())
+                .withExpiresAt(expirationDate)
+                .withIssuer(issuer)
+                .withClaim("roles", user.getRoles().stream().map(Role::getName).collect(Collectors.toList()))
+                .sign(algorithm);
+    }
 
 }

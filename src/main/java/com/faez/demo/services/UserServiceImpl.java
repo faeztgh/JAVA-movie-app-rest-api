@@ -5,6 +5,7 @@ import com.faez.demo.models.User;
 import com.faez.demo.repositories.RoleRepositoryInterface;
 import com.faez.demo.repositories.UserRepositoryInterface;
 import com.faez.demo.services.interfaces.IUserService;
+import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -30,7 +31,6 @@ import java.util.List;
 public class UserServiceImpl implements IUserService, UserDetailsService {
 
     private final UserRepositoryInterface userRepository;
-    private final RoleRepositoryInterface roleRepository;
     private final PasswordEncoder passwordEncoder;
 
 
@@ -41,31 +41,22 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         return userRepository.save(user);
     }
 
-    @Override
-    public Role saveRole(Role role) {
-        log.info("Saving new role {} to the Database", role.getName());
-        return roleRepository.save(role);
-    }
 
-    @Override
-    public void addRoleToUser(String username, String roleName) {
-        log.info("Adding role {} to user {}", roleName, username);
-
-        User user = userRepository.findByUsername(username);
-        Role role = roleRepository.findByName(roleName);
-
-        if (user == null || role == null) {
-            throw new IllegalStateException("Role or User not exist!");
-        }
-        user.getRoles().add(role);
-    }
 
     @Override
     public User getUser(String username) {
         log.info("Fetching user {} ", username);
-
         return userRepository.findByUsername(username);
     }
+
+
+    @Override
+    public User getUserById(Long id) throws NotFoundException {
+        log.info("Fetching user {} ", id);
+        return userRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Not Found"));
+    }
+
 
     @Override
     public List<User> getUsers() {

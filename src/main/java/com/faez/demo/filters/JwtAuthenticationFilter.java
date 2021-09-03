@@ -21,18 +21,18 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.faez.demo.common.constants.Constants.JWT_SECRET;
+import static com.faez.demo.common.constants.Constant.JWT_SECRET;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 /**
  * @author unknown
  */
 @Slf4j
-public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
 
-    public CustomAuthenticationFilter(AuthenticationManager authenticationManager) {
+    public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
     }
 
@@ -59,10 +59,10 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         Algorithm algorithm = Algorithm.HMAC256(JWT_SECRET.getBytes());
         String issuer = request.getRequestURL().toString();
 
-        Date accessTokenExpiration = new Date(System.currentTimeMillis() + 10 * 60 * 1000);
+        Date accessTokenExpiration = new Date(System.currentTimeMillis() + 10 * 160 * 1000);
         String access_token = createAccessToken(user, issuer, algorithm, accessTokenExpiration);
 
-        Date refreshTokenExpiration = new Date(System.currentTimeMillis() + 30 * 60 * 1000);
+        Date refreshTokenExpiration = new Date(System.currentTimeMillis() + 30 * 360 * 1000);
         String refresh_token = createRefreshToken(user, issuer, algorithm, refreshTokenExpiration);
 
 

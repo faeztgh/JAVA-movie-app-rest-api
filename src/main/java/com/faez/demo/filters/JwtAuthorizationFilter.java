@@ -21,9 +21,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.faez.demo.common.constants.Constants.JWT_SECRET;
-import static com.faez.demo.routes.ApiRoutes.LOGIN_API;
-import static com.faez.demo.routes.ApiRoutes.REFRESH_TOKEN_API;
+import static com.faez.demo.common.constants.Constant.JWT_SECRET;
+import static com.faez.demo.routes.ApiRoute.LOGIN_API;
+import static com.faez.demo.routes.ApiRoute.REFRESH_TOKEN_API;
 import static java.util.Arrays.stream;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
@@ -34,7 +34,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
  */
 @Slf4j
 
-public class CustomAuthorizationFilter extends OncePerRequestFilter {
+public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -62,7 +62,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                     log.error("Error Logging in: {}", exception.getMessage());
                     response.setHeader("error", exception.getMessage());
                     response.setStatus(FORBIDDEN.value());
-//                    response.sendError(FORBIDDEN.value());
+                    response.sendError(FORBIDDEN.value(), exception.getMessage());
                     Map<String, String> error = new HashMap<>();
                     error.put("error_message", exception.getMessage());
                     response.setContentType(APPLICATION_JSON_VALUE);

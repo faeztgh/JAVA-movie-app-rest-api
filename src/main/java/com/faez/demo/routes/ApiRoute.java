@@ -1,6 +1,6 @@
 package com.faez.demo.routes;
 
-public class ApiRoutes {
+public class ApiRoute {
 
     public static final String AUTH_API = "/api/auth";
 

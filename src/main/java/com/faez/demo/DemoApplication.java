@@ -2,6 +2,7 @@ package com.faez.demo;
 
 import com.faez.demo.models.Role;
 import com.faez.demo.models.User;
+import com.faez.demo.services.RoleServiceImpl;
 import com.faez.demo.services.UserServiceImpl;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -29,7 +30,7 @@ public class DemoApplication {
     }
 
     @Bean
-    CommandLineRunner run(UserServiceImpl userService) {
+    CommandLineRunner run(UserServiceImpl userService, RoleServiceImpl roleService) {
         return args -> {
 
             userService.saveUser(new User(null, "Jhon Doe", "john", "1234", "jhon@gmail.com", new ArrayList<>()));
@@ -38,16 +39,17 @@ public class DemoApplication {
             userService.saveUser(new User(null, "Faran Doe", "faran", "1234", "faran@gmail.com", new ArrayList<>()));
 
 
-            userService.saveRole(new Role(null, "ROLE_USER"));
-            userService.saveRole(new Role(null, "ROLE_MANAGER"));
-            userService.saveRole(new Role(null, "ROLE_ADMIN"));
-            userService.saveRole(new Role(null, "ROLE_SUPER_ADMIN"));
+            roleService.saveRole(new Role(null, "ROLE_USER"));
+            roleService.saveRole(new Role(null, "ROLE_MANAGER"));
+            roleService.saveRole(new Role(null, "ROLE_ADMIN"));
+            roleService.saveRole(new Role(null, "ROLE_SUPER_ADMIN"));
 
 
-            userService.addRoleToUser("john", "ROLE_USER");
-            userService.addRoleToUser("john", "ROLE_MANAGER");
-            userService.addRoleToUser("jane", "ROLE_ADMIN");
-            userService.addRoleToUser("faran", "ROLE_USER");
+            roleService.addRoleToUser("john", "ROLE_USER");
+            roleService.addRoleToUser("john", "ROLE_MANAGER");
+            roleService.addRoleToUser("jane", "ROLE_ADMIN");
+            roleService.addRoleToUser("faran", "ROLE_USER");
+            roleService.addRoleToUser("faran", "ROLE_ADMIN");
         };
     }
 }

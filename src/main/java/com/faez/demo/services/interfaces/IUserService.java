@@ -2,6 +2,7 @@ package com.faez.demo.services.interfaces;
 
 import com.faez.demo.models.Role;
 import com.faez.demo.models.User;
+import javassist.NotFoundException;
 
 import java.util.List;
 
@@ -11,11 +12,9 @@ import java.util.List;
 public interface IUserService {
     User saveUser(User user);
 
-    Role saveRole(Role role);
-
-    void addRoleToUser(String username, String roleName);
-
     User getUser(String username);
 
     List<User> getUsers();
+
+    User getUserById(Long id) throws NotFoundException;
 }
