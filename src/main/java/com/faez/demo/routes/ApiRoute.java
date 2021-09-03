@@ -2,11 +2,23 @@ package com.faez.demo.routes;
 
 public class ApiRoute {
 
-    public static final String AUTH_API = "/api/auth";
+    // Config
+    private static final String API_PREFIX = "/api";
+    private static final String API_VERSION = "";
+    private static final String API_BASE = API_PREFIX + API_VERSION;
 
-    public static final String LOGIN_API = "/api/auth/login";
+    // Auth
+    public static final String AUTH_API = API_BASE + "/auth";
+    public static final String LOGIN_API = API_BASE + "/auth/login";
+    public static final String REFRESH_TOKEN_API = API_BASE + "/auth/token/refresh";
 
-    public static final String REFRESH_TOKEN_API = "/api/auth/token/refresh";
+    // User
+    public static final String USERS_API = API_BASE + "/users";
+    public static final String GET_USER_BY_ID_API = API_BASE + "/users/{id}";
 
-    public static final String USERS_API = "/api/users";
+    // Role
+    public static final String ROLE_API = API_BASE + "/role";
+    public static final String ADD_ROLE_TO_USER_API = API_BASE + "/role/addRoleToUser";
+
+
 }

@@ -1,7 +1,6 @@
 package com.faez.demo.models;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -17,8 +16,13 @@ import static javax.persistence.GenerationType.AUTO;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Data
-@Table(name = "user", schema = "public")
+@Table(name = "user",
+        schema = "public",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "user_email_unique", columnNames = "email"),
+                @UniqueConstraint(name = "user_username_unique", columnNames = "username")
+        }
+)
 public class User {
 
     @Id

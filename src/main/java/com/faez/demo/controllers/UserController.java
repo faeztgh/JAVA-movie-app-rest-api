@@ -15,6 +15,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.List;
 
+import static com.faez.demo.routes.ApiRoute.GET_USER_BY_ID_API;
 import static com.faez.demo.routes.ApiRoute.USERS_API;
 
 /**
@@ -32,7 +33,7 @@ public class UserController {
         return ResponseEntity.ok().body(userService.getUsers());
     }
 
-    @GetMapping(USERS_API + "/{id}")
+    @GetMapping(GET_USER_BY_ID_API)
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPER_ADMIN')")
     public User getUser(@PathVariable Long id) throws NotFoundException {
         return userService.getUserById(id);

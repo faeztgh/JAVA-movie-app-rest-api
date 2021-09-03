@@ -1,8 +1,6 @@
 package com.faez.demo.services;
 
-import com.faez.demo.models.Role;
 import com.faez.demo.models.User;
-import com.faez.demo.repositories.RoleRepositoryInterface;
 import com.faez.demo.repositories.UserRepositoryInterface;
 import com.faez.demo.services.interfaces.IUserService;
 import javassist.NotFoundException;
@@ -40,7 +38,6 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
-
 
 
     @Override
