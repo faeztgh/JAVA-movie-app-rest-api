@@ -1,7 +1,9 @@
 package com.faez.demo;
 
+import com.faez.demo.models.Movie;
 import com.faez.demo.models.Role;
 import com.faez.demo.models.User;
+import com.faez.demo.services.MovieServiceImpl;
 import com.faez.demo.services.RoleServiceImpl;
 import com.faez.demo.services.UserServiceImpl;
 import org.springframework.boot.CommandLineRunner;
@@ -30,7 +32,9 @@ public class DemoApplication {
     }
 
     @Bean
-    CommandLineRunner run(UserServiceImpl userService, RoleServiceImpl roleService) {
+    CommandLineRunner run(UserServiceImpl userService,
+                          RoleServiceImpl roleService,
+                          MovieServiceImpl movieService) {
         return args -> {
 
             userService.saveUser(new User(null, "Jhon Doe", "john", "1234", "jhon@gmail.com", new ArrayList<>()));
@@ -50,6 +54,10 @@ public class DemoApplication {
             roleService.addRoleToUser("jane", "ROLE_ADMIN");
             roleService.addRoleToUser("faran", "ROLE_USER");
             roleService.addRoleToUser("faran", "ROLE_ADMIN");
+
+
+            // movies
+            movieService.saveMovie(new Movie("title", "1999", "action", "50min"));
         };
     }
 }

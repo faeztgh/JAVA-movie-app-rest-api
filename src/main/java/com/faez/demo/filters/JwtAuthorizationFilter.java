@@ -6,6 +6,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -37,7 +38,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull FilterChain filterChain) throws ServletException, IOException {
         if (request.getServletPath().equals(LOGIN_API) || request.getServletPath().equals(REFRESH_TOKEN_API)) {
             filterChain.doFilter(request, response);
         } else {
@@ -51,27 +52,29 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                     String username = decodedJWT.getSubject();
                     String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
                     Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-                    stream(roles).forEach(role -> {
-                        authorities.add(new SimpleGrantedAuthority(role));
-                    });
+                    stream(roles).forEach(role -> authorities.add(new SimpleGrantedAuthority(role)));
                     UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, null, authorities);
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                     filterChain.doFilter(request, response);
 
                 } catch (Exception exception) {
-                    log.error("Error Logging in: {}", exception.getMessage());
-                    response.setHeader("error", exception.getMessage());
-                    response.setStatus(FORBIDDEN.value());
-                    response.sendError(FORBIDDEN.value(), exception.getMessage());
-                    Map<String, String> error = new HashMap<>();
-                    error.put("error_message", exception.getMessage());
-                    response.setContentType(APPLICATION_JSON_VALUE);
-                    new ObjectMapper().writeValue(response.getOutputStream(), error);
+                    handleJwtAuthorizationError(exception, response);
                 }
             } else {
                 filterChain.doFilter(request, response);
             }
 
         }
+    }
+
+    private void handleJwtAuthorizationError(Exception exception, HttpServletResponse response) throws IOException {
+        log.error("Error Logging in: {}", exception.getMessage());
+        response.setHeader("error", exception.getMessage());
+        response.setStatus(FORBIDDEN.value());
+        response.sendError(FORBIDDEN.value(), exception.getMessage());
+        Map<String, String> error = new HashMap<>();
+        error.put("error_message", exception.getMessage());
+        response.setContentType(APPLICATION_JSON_VALUE);
+        new ObjectMapper().writeValue(response.getOutputStream(), error);
     }
 }

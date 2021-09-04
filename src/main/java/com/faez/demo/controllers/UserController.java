@@ -42,7 +42,7 @@ public class UserController {
     @PostMapping(USERS_API)
     @PreAuthorize("hasAuthority('admin:write')")
     public ResponseEntity<User> createUser(@RequestBody User user) {
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/users").toUriString());
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path(USERS_API).toUriString());
         return ResponseEntity.created(uri).body(userService.saveUser(user));
     }
 

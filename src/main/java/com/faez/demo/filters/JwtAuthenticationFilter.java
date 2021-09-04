@@ -31,6 +31,10 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
+    private final Algorithm algorithm = Algorithm.HMAC256(JWT_SECRET.getBytes());
+    private final Date accessTokenExpiration = new Date(System.currentTimeMillis() + 10 * 160 * 1000);
+    private final Date refreshTokenExpiration = new Date(System.currentTimeMillis() + 30 * 360 * 1000);
+
 
     public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
@@ -56,13 +60,10 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             FilterChain chain, Authentication authentication) throws IOException {
 
         User user = (User) authentication.getPrincipal();
-        Algorithm algorithm = Algorithm.HMAC256(JWT_SECRET.getBytes());
         String issuer = request.getRequestURL().toString();
 
-        Date accessTokenExpiration = new Date(System.currentTimeMillis() + 10 * 160 * 1000);
         String access_token = createAccessToken(user, issuer, algorithm, accessTokenExpiration);
 
-        Date refreshTokenExpiration = new Date(System.currentTimeMillis() + 30 * 360 * 1000);
         String refresh_token = createRefreshToken(user, issuer, algorithm, refreshTokenExpiration);
 
 

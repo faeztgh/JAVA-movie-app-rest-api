@@ -16,12 +16,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import static com.faez.demo.enums.UserPermission.ADMIN_READ;
-import static com.faez.demo.enums.UserPermission.USER_WRITE;
-import static com.faez.demo.enums.UserRole.USER;
 import static com.faez.demo.routes.ApiRoute.*;
-import static org.springframework.http.HttpMethod.GET;
-import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 /**
@@ -55,6 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterBefore(new JwtAuthorizationFilter(),
                         UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests().antMatchers(AUTH_API + "/**").permitAll()
+                .antMatchers(MOVIES_API + "/**").permitAll()
 //                .antMatchers(USERS_API + "/**").hasRole(USER.name())
 //                .antMatchers(GET, USERS_API + "/**").hasAuthority(ADMIN_READ.getPermission())
 //                .antMatchers(POST, USERS_API + "/**").hasAuthority(USER_WRITE.getPermission())

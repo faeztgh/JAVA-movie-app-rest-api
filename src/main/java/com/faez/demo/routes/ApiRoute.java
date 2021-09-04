@@ -20,5 +20,9 @@ public class ApiRoute {
     public static final String ROLE_API = API_BASE + "/role";
     public static final String ADD_ROLE_TO_USER_API = API_BASE + "/role/addRoleToUser";
 
+    // Movie
+    public static final String MOVIES_API = API_BASE + "/movies";
+    public static final String GET_MOVIE_BY_ID_API = API_BASE + "/movies/{id}";
+
 
 }
