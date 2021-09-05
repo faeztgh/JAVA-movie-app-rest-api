@@ -16,6 +16,7 @@ public class ApiRoute {
     // User
     public static final String USERS_API = API_BASE + "/users";
     public static final String GET_USER_BY_ID_API = API_BASE + "/users/{id}";
+    public static final String UPLOAD_AVATAR_API = API_BASE + "/users/avatar";
 
     // Role
     public static final String ROLE_API = API_BASE + "/role";

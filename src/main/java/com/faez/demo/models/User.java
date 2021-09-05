@@ -48,5 +48,15 @@ public class User {
     @ManyToMany(fetch = EAGER, cascade = CascadeType.ALL)
     private Collection<Role> roles = new ArrayList<>();
 
+    private String avatar;
 
+    public User(Long id, String firstName, String lastName, String username, String password, String email, Collection<Role> roles) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.roles = roles;
+    }
 }
