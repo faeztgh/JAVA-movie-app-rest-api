@@ -8,13 +8,17 @@ import com.faez.demo.services.interfaces.IUserService;
 import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -34,6 +38,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final FileUploaderService fileUploaderService;
 
 
     @Override
@@ -60,6 +65,22 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
                 .orElseThrow(() -> new ApiRequestException("User Not Found"));
     }
 
+    @Override
+    public String uploadAvatar(MultipartFile uploadFile, String uploadPath) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userRepository.findByUsername(auth.getPrincipal().toString());
+        if (user == null) {
+            throw new ApiRequestException("User Not exist!");
+        }
+
+        if (uploadFile == null) {
+            throw new ApiRequestException("Please select a file!");
+        }
+
+        user.setAvatar(uploadFile.getOriginalFilename());
+        userRepository.save(user);
+        return fileUploaderService.uploadFile(uploadFile, uploadPath);
+    }
 
 
     @Override
