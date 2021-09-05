@@ -1,7 +1,6 @@
 package com.faez.demo.filters;
 
 import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,12 +15,11 @@ import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.faez.demo.common.constants.Constant.JWT_SECRET;
+import static com.faez.demo.common.constants.AppConfig.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 /**
@@ -31,9 +29,6 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
-    private final Algorithm algorithm = Algorithm.HMAC256(JWT_SECRET.getBytes());
-    private final Date accessTokenExpiration = new Date(System.currentTimeMillis() + 10 * 160 * 1000);
-    private final Date refreshTokenExpiration = new Date(System.currentTimeMillis() + 30 * 360 * 1000);
 
 
     public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
@@ -62,9 +57,9 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         User user = (User) authentication.getPrincipal();
         String issuer = request.getRequestURL().toString();
 
-        String access_token = createAccessToken(user, issuer, algorithm, accessTokenExpiration);
+        String access_token = createAccessToken(user, issuer);
 
-        String refresh_token = createRefreshToken(user, issuer, algorithm, refreshTokenExpiration);
+        String refresh_token = createRefreshToken(user, issuer);
 
 
         Map<String, String> tokens = new HashMap<>();
@@ -74,20 +69,20 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         new ObjectMapper().writeValue(response.getOutputStream(), tokens);
     }
 
-    private String createAccessToken(User user, String issuer, Algorithm algorithm, Date expirationDate) {
+    private String createAccessToken(User user, String issuer) {
         return JWT.create()
                 .withSubject(user.getUsername())
-                .withExpiresAt(expirationDate)
+                .withExpiresAt(ACCESS_TOKEN_EXPIRATION)
                 .withIssuer(issuer)
                 .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
-                .sign(algorithm);
+                .sign(JWT_ALGORITHM);
     }
 
-    private String createRefreshToken(User user, String issuer, Algorithm algorithm, Date expirationDate) {
+    private String createRefreshToken(User user, String issuer) {
         return JWT.create()
                 .withSubject(user.getUsername())
-                .withExpiresAt(expirationDate)
+                .withExpiresAt(REFRESH_TOKEN_EXPIRATION)
                 .withIssuer(issuer)
-                .sign(algorithm);
+                .sign(JWT_ALGORITHM);
     }
 }

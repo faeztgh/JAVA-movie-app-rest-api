@@ -1,11 +1,13 @@
 package com.faez.demo.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import static com.fasterxml.jackson.annotation.JsonProperty.Access.WRITE_ONLY;
 import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.GenerationType.AUTO;
 
@@ -22,8 +24,8 @@ import static javax.persistence.GenerationType.AUTO;
         name = "user",
         schema = "public",
         uniqueConstraints = {
-                @UniqueConstraint(name = "user_email_unique", columnNames = "email"),
-                @UniqueConstraint(name = "user_username_unique", columnNames = "username")
+                @UniqueConstraint(name = "user_username_unique", columnNames = "username"),
+                @UniqueConstraint(name = "user_email_unique", columnNames = "email")
         }
 )
 public class User {
@@ -38,6 +40,7 @@ public class User {
 
     private String username;
 
+    @JsonProperty(access = WRITE_ONLY)
     private String password;
 
     private String email;

@@ -22,7 +22,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.faez.demo.common.constants.Constant.JWT_SECRET;
+import static com.faez.demo.common.constants.AppConfig.JWT_ALGORITHM;
+import static com.faez.demo.common.constants.AppConfig.JWT_SECRET;
 import static com.faez.demo.routes.ApiRoute.LOGIN_API;
 import static com.faez.demo.routes.ApiRoute.REFRESH_TOKEN_API;
 import static java.util.Arrays.stream;
@@ -46,8 +47,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
                 try {
                     String token = authorizationHeader.substring("Bearer ".length());
-                    Algorithm algorithm = Algorithm.HMAC256(JWT_SECRET.getBytes());
-                    JWTVerifier verifier = JWT.require(algorithm).build();
+                    JWTVerifier verifier = JWT.require(JWT_ALGORITHM).build();
                     DecodedJWT decodedJWT = verifier.verify(token);
                     String username = decodedJWT.getSubject();
                     String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
