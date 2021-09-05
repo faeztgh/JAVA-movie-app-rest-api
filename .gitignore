@@ -33,3 +33,4 @@ build/
 /src/main/resources/application.properties
 /vault.conf
 /note.txt
+*.jpg
