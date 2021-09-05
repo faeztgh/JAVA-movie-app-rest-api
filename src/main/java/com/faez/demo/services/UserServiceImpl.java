@@ -1,5 +1,6 @@
 package com.faez.demo.services;
 
+import com.faez.demo.models.Role;
 import com.faez.demo.models.User;
 import com.faez.demo.repositories.UserRepositoryInterface;
 import com.faez.demo.services.interfaces.IUserService;
@@ -18,6 +19,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import static com.faez.demo.enums.UserRole.USER;
+
 
 /**
  * @author unknown
@@ -35,7 +38,9 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
     @Override
     public User saveUser(User user) {
         log.info("Saving new user to the Database");
+
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.getRoles().add(new Role(USER.name()));
         return userRepository.save(user);
     }
 

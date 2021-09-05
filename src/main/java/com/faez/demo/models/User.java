@@ -2,6 +2,7 @@ package com.faez.demo.models;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -28,9 +29,13 @@ public class User {
     @Id
     @GeneratedValue(strategy = AUTO)
     private Long id;
-    private String name;
+    private String firstName;
+    private String lastName;
+    @NotNull
     private String username;
+    @NotNull
     private String password;
+    @NotNull
     private String email;
     @ManyToMany(fetch = EAGER)
     private Collection<Role> roles = new ArrayList<>();
