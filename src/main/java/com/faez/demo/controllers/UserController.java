@@ -5,16 +5,22 @@ import com.faez.demo.services.UserServiceImpl;
 import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import static com.faez.demo.routes.ApiRoute.GET_USER_BY_ID_API;
-import static com.faez.demo.routes.ApiRoute.USERS_API;
+import static com.faez.demo.common.constants.AppConfig.UPLOAD_AVATAR_DIR;
+import static com.faez.demo.routes.ApiRoute.*;
+import static org.springframework.http.HttpStatus.CREATED;
 
 /**
  * @author unknown
@@ -44,8 +50,16 @@ public class UserController {
         return ResponseEntity.created(uri).body(userService.saveUser(user));
     }
 
+    @PostMapping(UPLOAD_AVATAR_API)
+    @PreAuthorize("hasAnyRole('ROLE_USER')")
+    public Map<String, String> uploadAvatar(@RequestParam("avatar") MultipartFile uploadFile) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("status", String.valueOf(CREATED.value()));
+        map.put("message", userService.uploadAvatar(uploadFile, UPLOAD_AVATAR_DIR));
+        map.put("timestamp", new Date().toString());
 
-
+        return map;
+    }
 }
 
 
