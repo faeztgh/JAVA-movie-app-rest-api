@@ -1,8 +1,6 @@
 package com.faez.demo.models;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import org.jetbrains.annotations.NotNull;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -17,7 +15,11 @@ import static javax.persistence.GenerationType.AUTO;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "user",
+@ToString
+@Getter
+@Setter
+@Table(
+        name = "user",
         schema = "public",
         uniqueConstraints = {
                 @UniqueConstraint(name = "user_email_unique", columnNames = "email"),
@@ -29,38 +31,19 @@ public class User {
     @Id
     @GeneratedValue(strategy = AUTO)
     private Long id;
+
     private String firstName;
+
     private String lastName;
-    @NotNull
+
     private String username;
-    @NotNull
+
     private String password;
-    @NotNull
+
     private String email;
-    @ManyToMany(fetch = EAGER)
+
+    @ManyToMany(fetch = EAGER, cascade = CascadeType.ALL)
     private Collection<Role> roles = new ArrayList<>();
-
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-
-    public Collection<Role> getRoles() {
-        return roles;
-    }
 
 
 }

@@ -1,5 +1,7 @@
 package com.faez.demo.services;
 
+import com.faez.demo.dto.UpdateMovieDto;
+import com.faez.demo.exceptions.ApiRequestException;
 import com.faez.demo.models.Movie;
 import com.faez.demo.repositories.MovieRepository;
 import com.faez.demo.services.interfaces.IMovieService;
@@ -14,7 +16,6 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-@Transactional
 public class MovieServiceImpl implements IMovieService {
 
     private final MovieRepository movieRepository;
@@ -37,6 +38,28 @@ public class MovieServiceImpl implements IMovieService {
 
     @Override
     public Movie getMovieById(Long id) throws NotFoundException {
-        return movieRepository.findById(id).orElseThrow(() -> new NotFoundException("Movie Not Found"));
+        return movieRepository.findById(id).orElseThrow(() -> new ApiRequestException("Movie Not Found"));
     }
+
+    @Override
+    @Transactional
+    public Movie updateMovie(Long id, UpdateMovieDto movieDto) throws NotFoundException {
+        Movie updatedMovie = this.getMovieById(id);
+        updatedMovie.setTitle(movieDto.getTitle());
+        updatedMovie.setYear(movieDto.getYear());
+        updatedMovie.setGenre(movieDto.getGenre());
+        updatedMovie.setLength(movieDto.getLength());
+        updatedMovie.setPosterUrl(movieDto.getPosterUrl());
+
+        return updatedMovie;
+    }
+
+    @Override
+    public Movie deleteMovie(Long id) throws NotFoundException {
+        Movie movie = this.getMovieById(id);
+        movieRepository.delete(movie);
+        return movie;
+    }
+
+
 }

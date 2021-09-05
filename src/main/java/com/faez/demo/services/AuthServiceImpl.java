@@ -10,6 +10,7 @@ import com.faez.demo.services.interfaces.IAuthService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +22,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.faez.demo.common.constants.Constant.JWT_SECRET;
-import static org.springframework.http.HttpStatus.FORBIDDEN;
+import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Service
@@ -29,6 +30,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @Slf4j
 public class AuthServiceImpl implements IAuthService {
     private final UserServiceImpl userService;
+    private final PasswordEncoder passwordEncoder;
 
 
     @Override
@@ -57,13 +59,19 @@ public class AuthServiceImpl implements IAuthService {
         }
     }
 
+    @Override
+    public User registerUser(User user) {
+        return userService.saveUser(user);
+    }
+
+
     public void handleAuthError(Exception exception, HttpServletResponse response) throws IOException {
         log.error("Error Logging in: {}", exception.getMessage());
         response.setHeader("error", exception.getMessage());
-        response.setStatus(FORBIDDEN.value());
-        response.sendError(FORBIDDEN.value(), exception.getMessage());
+        response.setStatus(SC_UNAUTHORIZED);
+//        response.sendError(FORBIDDEN.value(), exception.getMessage());
         Map<String, String> error = new HashMap<>();
-        error.put("error_message", exception.getMessage());
+        error.put("message", exception.getMessage());
         response.setContentType(APPLICATION_JSON_VALUE);
         new ObjectMapper().writeValue(response.getOutputStream(), error);
     }

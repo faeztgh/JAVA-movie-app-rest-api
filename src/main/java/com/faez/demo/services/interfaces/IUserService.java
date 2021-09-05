@@ -1,6 +1,5 @@
 package com.faez.demo.services.interfaces;
 
-import com.faez.demo.models.Role;
 import com.faez.demo.models.User;
 import javassist.NotFoundException;
 
@@ -17,4 +16,6 @@ public interface IUserService {
     List<User> getUsers();
 
     User getUserById(Long id) throws NotFoundException;
+
+
 }

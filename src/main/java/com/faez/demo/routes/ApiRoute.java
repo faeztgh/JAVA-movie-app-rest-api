@@ -10,6 +10,7 @@ public class ApiRoute {
     // Auth
     public static final String AUTH_API = API_BASE + "/auth";
     public static final String LOGIN_API = API_BASE + "/auth/login";
+    public static final String REGISTER_API = API_BASE + "/auth/register";
     public static final String REFRESH_TOKEN_API = API_BASE + "/auth/token/refresh";
 
     // User
@@ -23,6 +24,13 @@ public class ApiRoute {
     // Movie
     public static final String MOVIES_API = API_BASE + "/movies";
     public static final String GET_MOVIE_BY_ID_API = API_BASE + "/movies/{id}";
+    public static final String UPDATE_MOVIE_API = API_BASE + "/movies/{id}";
+    public static final String DELETE_MOVIE_API = API_BASE + "/movies/{id}";
 
+    // Quote
+    public static final String QUOTES_API = API_BASE + "/quotes";
+    public static final String GET_QUOTE_BY_ID_API = API_BASE + "/quotes/{id}";
+    public static final String UPDATE_QUOTE_API = API_BASE + "/quotes/{id}";
+    public static final String DELETE_QUOTE_API = API_BASE + "/quotes/{id}";
 
 }

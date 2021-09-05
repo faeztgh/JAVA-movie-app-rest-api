@@ -1,9 +1,10 @@
 package com.faez.demo.services;
 
+import com.faez.demo.exceptions.ApiRequestException;
 import com.faez.demo.models.Role;
 import com.faez.demo.models.User;
-import com.faez.demo.repositories.RoleRepositoryInterface;
-import com.faez.demo.repositories.UserRepositoryInterface;
+import com.faez.demo.repositories.RoleRepository;
+import com.faez.demo.repositories.UserRepository;
 import com.faez.demo.services.interfaces.IRoleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,8 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class RoleServiceImpl implements IRoleService {
 
-    private final RoleRepositoryInterface roleRepository;
-    private final UserRepositoryInterface userRepository;
+    private final RoleRepository roleRepository;
+    private final UserRepository userRepository;
 
     @Override
     public Role saveRole(Role role) {
@@ -33,7 +34,7 @@ public class RoleServiceImpl implements IRoleService {
         Role role = roleRepository.findByName(roleName);
 
         if (user == null || role == null) {
-            throw new IllegalStateException("Role or User not exist!");
+            throw new ApiRequestException("Role or User not exist!");
         }
         user.getRoles().add(role);
     }

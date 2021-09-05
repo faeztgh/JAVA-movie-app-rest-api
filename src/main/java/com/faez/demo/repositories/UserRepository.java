@@ -1,6 +1,6 @@
 package com.faez.demo.repositories;
 
-import com.faez.demo.models.Role;
+import com.faez.demo.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -8,7 +8,9 @@ import org.springframework.stereotype.Repository;
  * @author unknown
  */
 @Repository
-public interface RoleRepositoryInterface extends JpaRepository<Role, Long> {
+public interface UserRepository extends JpaRepository<User, Long> {
 
-    Role findByName(String name);
+    User findByUsername(String username);
+
+
 }

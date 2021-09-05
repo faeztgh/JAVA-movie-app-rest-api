@@ -51,6 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests().antMatchers(AUTH_API + "/**").permitAll()
                 .antMatchers(MOVIES_API + "/**").permitAll()
+                .antMatchers(QUOTES_API + "/**").permitAll()
 //                .antMatchers(USERS_API + "/**").hasRole(USER.name())
 //                .antMatchers(GET, USERS_API + "/**").hasAuthority(ADMIN_READ.getPermission())
 //                .antMatchers(POST, USERS_API + "/**").hasAuthority(USER_WRITE.getPermission())

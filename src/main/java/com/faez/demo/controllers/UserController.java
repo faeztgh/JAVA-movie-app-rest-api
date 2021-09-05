@@ -1,7 +1,5 @@
 package com.faez.demo.controllers;
 
-import com.faez.demo.dto.RoleToUserDto;
-import com.faez.demo.models.Role;
 import com.faez.demo.models.User;
 import com.faez.demo.services.UserServiceImpl;
 import javassist.NotFoundException;
@@ -40,7 +38,7 @@ public class UserController {
     }
 
     @PostMapping(USERS_API)
-    @PreAuthorize("hasAuthority('admin:write')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public ResponseEntity<User> createUser(@RequestBody User user) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path(USERS_API).toUriString());
         return ResponseEntity.created(uri).body(userService.saveUser(user));

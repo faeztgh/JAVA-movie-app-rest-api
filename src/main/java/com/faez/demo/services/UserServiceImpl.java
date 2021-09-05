@@ -1,8 +1,9 @@
 package com.faez.demo.services;
 
+import com.faez.demo.exceptions.ApiRequestException;
 import com.faez.demo.models.Role;
 import com.faez.demo.models.User;
-import com.faez.demo.repositories.UserRepositoryInterface;
+import com.faez.demo.repositories.UserRepository;
 import com.faez.demo.services.interfaces.IUserService;
 import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +32,7 @@ import static com.faez.demo.enums.UserRole.USER;
 @Transactional(rollbackFor = Exception.class)
 public class UserServiceImpl implements IUserService, UserDetailsService {
 
-    private final UserRepositoryInterface userRepository;
+    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
 
@@ -56,8 +57,9 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
     public User getUserById(Long id) throws NotFoundException {
         log.info("Fetching user {} ", id);
         return userRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("User Not Found"));
+                .orElseThrow(() -> new ApiRequestException("User Not Found"));
     }
+
 
 
     @Override
@@ -74,7 +76,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 
         if (user == null) {
             log.error("User Not found!");
-            throw new UsernameNotFoundException("User not found");
+            throw new ApiRequestException("User not found");
         } else {
             log.info("User found: {}", username);
 

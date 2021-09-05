@@ -26,8 +26,8 @@ import static com.faez.demo.common.constants.Constant.JWT_SECRET;
 import static com.faez.demo.routes.ApiRoute.LOGIN_API;
 import static com.faez.demo.routes.ApiRoute.REFRESH_TOKEN_API;
 import static java.util.Arrays.stream;
+import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
-import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 /**
@@ -70,10 +70,10 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     private void handleJwtAuthorizationError(Exception exception, HttpServletResponse response) throws IOException {
         log.error("Error Logging in: {}", exception.getMessage());
         response.setHeader("error", exception.getMessage());
-        response.setStatus(FORBIDDEN.value());
-        response.sendError(FORBIDDEN.value(), exception.getMessage());
+        response.setStatus(SC_UNAUTHORIZED);
+//        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, exception.getMessage());
         Map<String, String> error = new HashMap<>();
-        error.put("error_message", exception.getMessage());
+        error.put("message", exception.getMessage());
         response.setContentType(APPLICATION_JSON_VALUE);
         new ObjectMapper().writeValue(response.getOutputStream(), error);
     }

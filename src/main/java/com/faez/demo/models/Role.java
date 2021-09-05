@@ -1,6 +1,5 @@
 package com.faez.demo.models;
 
-import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
@@ -18,6 +17,7 @@ public class Role {
     @Id
     @GeneratedValue(strategy = AUTO)
     private Long id;
+
     private String name;
 
     public Role(String name) {
@@ -27,7 +27,6 @@ public class Role {
     public String getName() {
         return name;
     }
-
 
 }
 
