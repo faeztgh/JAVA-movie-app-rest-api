@@ -1,13 +1,13 @@
 package com.faez.demo;
 
-import com.faez.demo.models.Movie;
-import com.faez.demo.models.Quote;
-import com.faez.demo.models.Role;
-import com.faez.demo.models.User;
-import com.faez.demo.services.MovieServiceImpl;
-import com.faez.demo.services.QuoteServiceImpl;
-import com.faez.demo.services.RoleServiceImpl;
-import com.faez.demo.services.UserServiceImpl;
+import com.faez.demo.movie.Movie;
+import com.faez.demo.quote.Quote;
+import com.faez.demo.role.Role;
+import com.faez.demo.user.User;
+import com.faez.demo.movie.MovieServiceImpl;
+import com.faez.demo.quote.QuoteServiceImpl;
+import com.faez.demo.role.RoleServiceImpl;
+import com.faez.demo.user.UserServiceImpl;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
