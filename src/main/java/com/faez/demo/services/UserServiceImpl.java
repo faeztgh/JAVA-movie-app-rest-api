@@ -8,7 +8,6 @@ import com.faez.demo.services.interfaces.IUserService;
 import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import static com.faez.demo.common.constants.AppConfig.MAX_UPLOAD_AVATAR_SIZE;
 import static com.faez.demo.enums.UserRole.USER;
 
 
@@ -75,6 +75,11 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 
         if (uploadFile == null) {
             throw new ApiRequestException("Please select a file!");
+        }
+
+
+        if (uploadFile.getSize() > MAX_UPLOAD_AVATAR_SIZE) {
+            throw new ApiRequestException("Your file is too large!");
         }
 
         user.setAvatar(uploadFile.getOriginalFilename());

@@ -22,13 +22,8 @@ public class FileUploaderService {
         String uploadedFolder = new File("").getAbsolutePath() + uploadPath;
         String fileName = "(" + RandomString.make(5) + ")-" + uploadFile.getOriginalFilename();
 
-
         if (uploadFile.isEmpty()) {
             throw new ApiRequestException("Please select a file!");
-        }
-
-        if (uploadFile.getSize() > 2097152) {
-            throw new ApiRequestException("Your file is too large!");
         }
 
         try {
