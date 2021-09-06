@@ -1,7 +1,5 @@
 package com.faez.demo.auth;
 
-import com.faez.demo.auth.JwtAuthenticationFilter;
-import com.faez.demo.auth.JwtAuthorizationFilter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -50,6 +48,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterBefore(new JwtAuthorizationFilter(),
                         UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests().antMatchers(AUTH_API + "/**").permitAll()
+                .antMatchers("/**").permitAll()
+                .antMatchers(JSON_DOCS_API + "/**").permitAll()
+                .antMatchers(SWAGGER_DOCS_API + "/**").permitAll()
                 .antMatchers(MOVIES_API + "/**").permitAll()
                 .antMatchers(QUOTES_API + "/**").permitAll()
                 .antMatchers(USERS_API + "/**").permitAll()

@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import static com.faez.demo.common.constants.AppConfig.MAX_UPLOAD_AVATAR_SIZE;
+import static com.faez.demo.utils.constants.AppConfig.MAX_UPLOAD_AVATAR_SIZE;
 import static com.faez.demo.enums.UserRole.USER;
 
 

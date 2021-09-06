@@ -19,8 +19,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.faez.demo.common.constants.AppConfig.ACCESS_TOKEN_EXPIRATION;
-import static com.faez.demo.common.constants.AppConfig.JWT_ALGORITHM;
+import static com.faez.demo.utils.constants.AppConfig.ACCESS_TOKEN_EXPIRATION;
+import static com.faez.demo.utils.constants.AppConfig.JWT_ALGORITHM;
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 

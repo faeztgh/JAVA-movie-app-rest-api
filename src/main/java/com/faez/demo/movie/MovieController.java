@@ -1,5 +1,6 @@
 package com.faez.demo.movie;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +18,7 @@ import static com.faez.demo.routes.ApiRoute.*;
 @RestController
 @Slf4j
 @RequiredArgsConstructor
+@Tag(name = "Movie")
 public class MovieController {
     private final MovieServiceImpl movieService;
 

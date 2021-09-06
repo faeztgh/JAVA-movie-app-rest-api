@@ -1,6 +1,7 @@
 package com.faez.demo.auth;
 
 import com.faez.demo.user.User;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -16,13 +17,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URI;
 
-import static com.faez.demo.routes.ApiRoute.REFRESH_TOKEN_API;
-import static com.faez.demo.routes.ApiRoute.REGISTER_API;
+import static com.faez.demo.routes.ApiRoute.*;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @RestController
 @RequiredArgsConstructor
 @Slf4j
+@Tag(name = "Auth")
 public class AuthController {
     private final AuthServiceImpl authService;
 
@@ -42,4 +43,6 @@ public class AuthController {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path(REGISTER_API).toUriString());
         return ResponseEntity.created(uri).body(authService.registerUser(user));
     }
+
+
 }

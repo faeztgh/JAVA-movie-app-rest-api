@@ -1,4 +1,4 @@
-package com.faez.demo.common.constants;
+package com.faez.demo.utils.constants;
 
 import com.auth0.jwt.algorithms.Algorithm;
 import org.springframework.context.annotation.Configuration;

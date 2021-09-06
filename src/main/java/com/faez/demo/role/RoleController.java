@@ -1,5 +1,6 @@
 package com.faez.demo.role;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import static com.faez.demo.routes.ApiRoute.ROLE_API;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
+@Tag(name = "Role")
 public class RoleController {
     private final RoleServiceImpl roleService;
 

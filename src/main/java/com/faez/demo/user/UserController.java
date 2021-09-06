@@ -1,5 +1,6 @@
 package com.faez.demo.user;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.faez.demo.common.constants.AppConfig.UPLOAD_AVATAR_DIR;
+import static com.faez.demo.utils.constants.AppConfig.UPLOAD_AVATAR_DIR;
 import static com.faez.demo.routes.ApiRoute.*;
 import static org.springframework.http.HttpStatus.CREATED;
 
@@ -25,6 +26,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
+@Tag(name = "User")
 public class UserController {
     private final UserServiceImpl userService;
 

@@ -1,5 +1,6 @@
 package com.faez.demo.quote;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import static com.faez.demo.routes.ApiRoute.*;
 @RestController
 @Slf4j
 @RequiredArgsConstructor
+@Tag(name = "Quote")
 public class QuoteController {
     private final QuoteServiceImpl quoteService;
 

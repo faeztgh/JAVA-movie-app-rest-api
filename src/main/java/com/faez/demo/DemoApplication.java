@@ -1,12 +1,12 @@
 package com.faez.demo;
 
 import com.faez.demo.movie.Movie;
-import com.faez.demo.quote.Quote;
-import com.faez.demo.role.Role;
-import com.faez.demo.user.User;
 import com.faez.demo.movie.MovieServiceImpl;
+import com.faez.demo.quote.Quote;
 import com.faez.demo.quote.QuoteServiceImpl;
+import com.faez.demo.role.Role;
 import com.faez.demo.role.RoleServiceImpl;
+import com.faez.demo.user.User;
 import com.faez.demo.user.UserServiceImpl;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -74,4 +74,5 @@ public class DemoApplication {
 
         };
     }
+
 }

@@ -7,6 +7,10 @@ public class ApiRoute {
     private static final String API_VERSION = "";
     private static final String API_BASE = API_PREFIX + API_VERSION;
 
+    // Docs
+    public static final String JSON_DOCS_API = API_BASE + "/docs";
+    public static final String SWAGGER_DOCS_API = API_BASE + "/swagger-ui";
+
     // Auth
     public static final String AUTH_API = API_BASE + "/auth";
     public static final String LOGIN_API = API_BASE + "/auth/login";

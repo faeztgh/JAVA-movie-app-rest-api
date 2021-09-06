@@ -2,7 +2,6 @@ package com.faez.demo.auth;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
-import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -22,8 +21,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.faez.demo.common.constants.AppConfig.JWT_ALGORITHM;
-import static com.faez.demo.common.constants.AppConfig.JWT_SECRET;
+import static com.faez.demo.utils.constants.AppConfig.JWT_ALGORITHM;
 import static com.faez.demo.routes.ApiRoute.LOGIN_API;
 import static com.faez.demo.routes.ApiRoute.REFRESH_TOKEN_API;
 import static java.util.Arrays.stream;

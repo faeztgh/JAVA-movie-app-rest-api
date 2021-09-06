@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.faez.demo.common.constants.AppConfig.*;
+import static com.faez.demo.utils.constants.AppConfig.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 /**
