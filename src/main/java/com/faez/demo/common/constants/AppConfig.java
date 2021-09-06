@@ -16,7 +16,8 @@ public class AppConfig {
 
     public static final Algorithm JWT_ALGORITHM = Algorithm.HMAC256(JWT_SECRET.getBytes());
 
-    // Upload Paths
+    // Upload
     public static final String UPLOAD_AVATAR_DIR = "/src/main/resources/uploads/avatar/";
+    public static final int MAX_UPLOAD_AVATAR_SIZE = 1024 * 1024 * 3; //3MB
 
 }
