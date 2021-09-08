@@ -9,6 +9,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -36,14 +37,14 @@ public class QuoteController {
 
     @PostMapping(QUOTES_API)
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    public ResponseEntity<Quote> createQuote(@Validated @RequestBody Quote quote) {
+    public ResponseEntity<Quote> createQuote(@Valid @RequestBody Quote quote) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path(QUOTES_API).toUriString());
         return ResponseEntity.created(uri).body(quoteService.saveQuote(quote));
     }
 
     @PutMapping(UPDATE_QUOTE_API)
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    public Quote updateQuote(@PathVariable Long id, @Validated @RequestBody UpdateQuoteDto quoteDto) {
+    public Quote updateQuote(@PathVariable Long id, @Valid @RequestBody UpdateQuoteDto quoteDto) {
         return quoteService.updateQuote(id, quoteDto);
     }
 

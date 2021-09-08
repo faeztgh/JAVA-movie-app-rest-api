@@ -14,6 +14,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.IOException;
 import java.net.URI;
 
@@ -39,7 +40,7 @@ public class AuthController {
 
 
     @PostMapping(REGISTER_API)
-    public ResponseEntity<User> registerUser(@Validated @RequestBody User user) {
+    public ResponseEntity<User> registerUser(@Valid @RequestBody User user) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path(REGISTER_API).toUriString());
         return ResponseEntity.created(uri).body(authService.registerUser(user));
     }

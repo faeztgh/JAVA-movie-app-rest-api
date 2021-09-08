@@ -10,14 +10,15 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.faez.demo.utils.constants.AppConfig.UPLOAD_AVATAR_DIR;
 import static com.faez.demo.routes.ApiRoute.*;
+import static com.faez.demo.utils.constants.AppConfig.UPLOAD_AVATAR_DIR;
 import static org.springframework.http.HttpStatus.CREATED;
 
 /**
@@ -44,14 +45,14 @@ public class UserController {
 
     @PostMapping(USERS_API)
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    public ResponseEntity<User> createUser(@RequestBody User user) {
+    public ResponseEntity<User> createUser(@Valid @RequestBody User user) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path(USERS_API).toUriString());
         return ResponseEntity.created(uri).body(userService.saveUser(user));
     }
 
     @PostMapping(UPLOAD_AVATAR_API)
     @PreAuthorize("hasAnyRole('ROLE_USER')")
-    public Map<String, String> uploadAvatar(@RequestParam("avatar") MultipartFile uploadFile) {
+    public Map<String, String> uploadAvatar(@Valid @RequestParam("avatar") MultipartFile uploadFile) {
         HashMap<String, String> map = new HashMap<>();
         map.put("status", String.valueOf(CREATED.value()));
         map.put("message", userService.uploadAvatar(uploadFile, UPLOAD_AVATAR_DIR));

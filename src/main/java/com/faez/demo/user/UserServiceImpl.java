@@ -21,8 +21,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import static com.faez.demo.utils.constants.AppConfig.MAX_UPLOAD_AVATAR_SIZE;
 import static com.faez.demo.enums.UserRole.USER;
+import static com.faez.demo.utils.constants.AppConfig.MAX_UPLOAD_AVATAR_SIZE;
 
 
 /**
@@ -85,6 +85,11 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         return fileUploaderService.uploadFile(uploadFile, uploadPath);
     }
 
+    @Override
+    public User geUserByEmail(String email) {
+        return userRepository.findUserByEmail(email);
+    }
+
 
     @Override
     public List<User> getUsers() {
@@ -110,5 +115,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         user.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getName())));
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
     }
+
+
 }
 

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 
 import static com.faez.demo.routes.ApiRoute.ADD_ROLE_TO_USER_API;
@@ -24,7 +25,7 @@ public class RoleController {
 
     @PostMapping(ROLE_API)
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPER_ADMIN')")
-    public ResponseEntity<Role> saveRole(@RequestBody Role role) {
+    public ResponseEntity<Role> saveRole(@Valid @RequestBody Role role) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/users").toUriString());
         return ResponseEntity.created(uri).body(roleService.saveRole(role));
     }
@@ -32,7 +33,7 @@ public class RoleController {
 
     @PostMapping(ADD_ROLE_TO_USER_API)
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPER_ADMIN')")
-    public ResponseEntity<?> addRoleToUser(@RequestBody RoleToUserDto form) {
+    public ResponseEntity<?> addRoleToUser(@Valid @RequestBody RoleToUserDto form) {
         roleService.addRoleToUser(form.getUsername(), form.getRoleName());
         return ResponseEntity.ok().build();
     }
