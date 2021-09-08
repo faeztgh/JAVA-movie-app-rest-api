@@ -1,5 +1,6 @@
 package com.faez.demo.movie;
 
+import com.faez.demo.services.EmailService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ import static com.faez.demo.routes.ApiRoute.*;
 @Tag(name = "Movie")
 public class MovieController {
     private final MovieServiceImpl movieService;
+    private final EmailService emailService;
 
     @GetMapping(MOVIES_API)
     public ResponseEntity<List<Movie>> getMovies() {

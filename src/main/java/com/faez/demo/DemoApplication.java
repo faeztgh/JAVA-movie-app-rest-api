@@ -54,7 +54,7 @@ public class DemoApplication {
             userService.saveUser(new User(null, "Jack", "Doe", "jack", "1234", "jack@gmail.com", new ArrayList<>()));
             userService.saveUser(new User(null, "Faran", "Doe", "faran", "1234", "faran@gmail.com", new ArrayList<>()));
 
-
+//
             roleService.addRoleToUser("john", "ROLE_USER");
             roleService.addRoleToUser("jane", "ROLE_ADMIN");
             roleService.addRoleToUser("faran", "ROLE_USER");
@@ -71,6 +71,7 @@ public class DemoApplication {
                     "You send yourselves. Driven down by your own guilt. Forcing yourselves to relive your sins over and over. And the best part…the doors aren’t locked. You could leave anytime. It says something that no one ever does, doesn’t it?",
                     movie1
             ));
+
 
         };
     }

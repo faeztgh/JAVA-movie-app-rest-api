@@ -5,6 +5,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.faez.demo.exceptions.ApiRequestException;
 import com.faez.demo.role.Role;
+import com.faez.demo.services.EmailService;
 import com.faez.demo.user.User;
 import com.faez.demo.user.UserServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,7 +30,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @Slf4j
 public class AuthServiceImpl implements IAuthService {
     private final UserServiceImpl userService;
-
+    private final EmailService emailService;
 
     @Override
     public void handleRefreshToken(String authorizationHeader, HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -58,7 +59,11 @@ public class AuthServiceImpl implements IAuthService {
     @Override
     public User registerUser(User user) {
         try {
-            return userService.saveUser(user);
+            User userRes = userService.saveUser(user);
+            if (userRes != null) {
+                emailService.sendWelcomeEmail(user);
+            }
+            return userRes;
         } catch (Exception e) {
             if (e.getMessage().contains("[user_email_unique]")) {
                 throw new ApiRequestException("Email Exist!");
