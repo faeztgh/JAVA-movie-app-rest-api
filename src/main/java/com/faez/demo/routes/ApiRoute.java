@@ -16,6 +16,9 @@ public class ApiRoute {
     public static final String LOGIN_API = API_BASE + "/auth/login";
     public static final String REGISTER_API = API_BASE + "/auth/register";
     public static final String REFRESH_TOKEN_API = API_BASE + "/auth/token/refresh";
+    public static final String RESET_PASSWORD_API = API_BASE + "/auth/reset-password";
+    public static final String VALIDATE_RESET_PASSWORD_TOKEN_API = API_BASE + "/auth/reset-password/validate-token";
+    public static final String NEW_PASSWORD_API = API_BASE + "/auth/reset-password/new-password";
 
     // User
     public static final String USERS_API = API_BASE + "/users";

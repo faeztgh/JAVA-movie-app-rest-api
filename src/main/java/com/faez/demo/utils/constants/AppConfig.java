@@ -20,4 +20,7 @@ public class AppConfig {
     public static final String UPLOAD_AVATAR_DIR = "/src/main/resources/uploads/avatar/";
     public static final int MAX_UPLOAD_AVATAR_SIZE = 1024 * 1024 * 3; //3MB
 
+    // reset password
+    public static final long RESET_PASSWORD_EXPIRATION = 1000L * 60L * 60L * 2L;
+
 }

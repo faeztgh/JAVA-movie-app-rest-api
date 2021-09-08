@@ -18,4 +18,7 @@ public interface IUserService {
     User getUserById(Long id) throws NotFoundException;
 
     String uploadAvatar(MultipartFile uploadFile, String uploadPath);
+
+    User geUserByEmail(String email);
+
 }

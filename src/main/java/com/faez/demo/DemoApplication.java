@@ -52,7 +52,7 @@ public class DemoApplication {
             userService.saveUser(new User(null, "Jhon", "Doe", "john", "1234", "jhon@gmail.com", new ArrayList<>()));
             userService.saveUser(new User(null, "Jane", "Doe", "jane", "1234", "jane@gmail.com", new ArrayList<>()));
             userService.saveUser(new User(null, "Jack", "Doe", "jack", "1234", "jack@gmail.com", new ArrayList<>()));
-            userService.saveUser(new User(null, "Faran", "Doe", "faran", "1234", "faran@gmail.com", new ArrayList<>()));
+            userService.saveUser(new User(null, "Faran", "Doe", "faran", "1234", "d.jkh98@gmail.com", new ArrayList<>()));
 
 //
             roleService.addRoleToUser("john", "ROLE_USER");

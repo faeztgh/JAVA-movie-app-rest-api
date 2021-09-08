@@ -51,6 +51,7 @@ public class User {
 
     private String avatar;
 
+
     public User(Long id, String firstName, String lastName, String username, String password, String email, Collection<Role> roles) {
         this.id = id;
         this.firstName = firstName;

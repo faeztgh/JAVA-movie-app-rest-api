@@ -13,8 +13,12 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.faez.demo.utils.constants.AppConfig.RESET_PASSWORD_EXPIRATION;
+import static java.lang.System.currentTimeMillis;
 
 @Service
 public class EmailService {
@@ -40,7 +44,7 @@ public class EmailService {
 
     public void sendWelcomeEmail(User user) throws MessagingException, TemplateException, IOException {
         String subject = "You Are Registered Successfully!";
-        String emailContent = getEmailContent(user);
+        String emailContent = getEmailContentForRegister(user);
 
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
@@ -51,11 +55,47 @@ public class EmailService {
         mailSender.send(mimeMessage);
     }
 
-    private String getEmailContent(User user) throws IOException, TemplateException {
-        StringWriter stringWriter = new StringWriter();
+
+    public void sendResetPassword(User user, String token) throws MessagingException, TemplateException, IOException {
+        String subject = "Reset Password";
+        String emailContent = getEmailContentForResetPassword(token);
+
+        MimeMessage mimeMessage = mailSender.createMimeMessage();
+        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
+
+        mimeMessageHelper.setSubject(subject);
+        mimeMessageHelper.setTo(user.getEmail());
+        mimeMessageHelper.setText(emailContent, true);
+        mailSender.send(mimeMessage);
+    }
+
+
+    private String getEmailContentForRegister(User user) {
+        String templateName = "welcome-email.ftlh";
         Map<String, Object> model = new HashMap<>();
         model.put("user", user);
-        configuration.getTemplate("welcome-email.ftlh").process(model, stringWriter);
-        return stringWriter.getBuffer().toString();
+
+        return constructTemplate(model, templateName);
     }
+
+    private String getEmailContentForResetPassword(String token) {
+        String templateName = "resetPassword-email.ftlh";
+        Map<String, String> model = new HashMap<>();
+        model.put("token", token);
+        model.put("expirationTime", new Date(currentTimeMillis() + RESET_PASSWORD_EXPIRATION).toString());
+
+        return constructTemplate(model, templateName);
+    }
+
+    private String constructTemplate(Object model, String templateName) {
+        try {
+            StringWriter stringWriter = new StringWriter();
+            configuration.getTemplate(templateName).process(model, stringWriter);
+            return stringWriter.getBuffer().toString();
+        } catch (TemplateException | IOException exception) {
+            throw new RuntimeException(exception.getMessage());
+        }
+    }
+
+
 }
