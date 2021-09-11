@@ -33,10 +33,17 @@ public class MovieServiceImpl implements IMovieService {
     }
 
     @Override
-    public Movie getMovieById(Long id) throws NotFoundException {
+    public Movie getMovieById(Long id) {
         return movieRepository.findById(id).orElseThrow(() -> new ApiRequestException("Movie Not Found"));
     }
 
+    /**
+     *
+     * @param id
+     * @param movieDto
+     * @return
+     * @throws NotFoundException
+     */
     @Override
     @Transactional
     public Movie updateMovie(Long id, UpdateMovieDto movieDto) throws NotFoundException {
@@ -50,12 +57,19 @@ public class MovieServiceImpl implements IMovieService {
         return updatedMovie;
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     * @throws NotFoundException
+     */
     @Override
     public Movie deleteMovie(Long id) throws NotFoundException {
         Movie movie = this.getMovieById(id);
         movieRepository.delete(movie);
         return movie;
     }
+
 
 
 }

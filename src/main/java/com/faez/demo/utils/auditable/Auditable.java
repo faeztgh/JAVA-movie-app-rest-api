@@ -1,5 +1,6 @@
 package com.faez.demo.utils.auditable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedBy;
@@ -14,6 +15,7 @@ import javax.persistence.Temporal;
 import java.util.Date;
 
 import static javax.persistence.TemporalType.TIMESTAMP;
+
 
 @Getter
 @Setter
@@ -30,8 +32,10 @@ public abstract class Auditable {
     private Date lastModifiedDate;
 
     @CreatedBy
+    @JsonIgnore
     private String createdBy;
 
     @LastModifiedBy
+    @JsonIgnore
     private String lastModifiedUser;
 }

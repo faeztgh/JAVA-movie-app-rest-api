@@ -55,6 +55,11 @@ public class EmailService {
         mailSender.send(mimeMessage);
     }
 
+    public void sendReport(String subject, Map model, String templateName) {
+
+//        String emailContent = getEmailContentForReports();
+    }
+
 
     public void sendResetPassword(User user, String token) throws MessagingException, TemplateException, IOException {
         String subject = "Reset Password";
@@ -69,6 +74,14 @@ public class EmailService {
         mailSender.send(mimeMessage);
     }
 
+
+//    private String getEmailContentForReports() {
+//        String templateName = "monitoring.ftlh";
+//        Map<String, Object> model = new HashMap<>();
+//
+//
+//        return constructTemplate(model, templateName);
+//    }
 
     private String getEmailContentForRegister(User user) {
         String templateName = "welcome-email.ftlh";
