@@ -1,0 +1,75 @@
+package com.faez.demo.movie;
+
+import com.faez.demo.exceptions.ApiRequestException;
+import javassist.NotFoundException;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+@Slf4j
+public class MovieServiceImpl implements IMovieService {
+
+    private final MovieRepository movieRepository;
+
+    @Override
+    public Movie saveMovie(Movie movie) {
+        return movieRepository.save(movie);
+    }
+
+    @Override
+    public Movie getMovie(String title) {
+        return movieRepository.findByTitle(title);
+    }
+
+
+    @Override
+    public List<Movie> getMovies() {
+        return movieRepository.findAll();
+    }
+
+    @Override
+    public Movie getMovieById(Long id) {
+        return movieRepository.findById(id).orElseThrow(() -> new ApiRequestException("Movie Not Found"));
+    }
+
+    /**
+     *
+     * @param id
+     * @param movieDto
+     * @return
+     * @throws NotFoundException
+     */
+    @Override
+    @Transactional
+    public Movie updateMovie(Long id, UpdateMovieDto movieDto) throws NotFoundException {
+        Movie updatedMovie = this.getMovieById(id);
+        updatedMovie.setTitle(movieDto.getTitle());
+        updatedMovie.setYear(movieDto.getYear());
+        updatedMovie.setGenre(movieDto.getGenre());
+        updatedMovie.setLength(movieDto.getLength());
+        updatedMovie.setPosterUrl(movieDto.getPosterUrl());
+
+        return updatedMovie;
+    }
+
+    /**
+     *
+     * @param id
+     * @return
+     * @throws NotFoundException
+     */
+    @Override
+    public Movie deleteMovie(Long id) throws NotFoundException {
+        Movie movie = this.getMovieById(id);
+        movieRepository.delete(movie);
+        return movie;
+    }
+
+
+
+}

@@ -34,3 +34,5 @@ build/
 /vault.conf
 /note.txt
 *.jpg
+*.png
+/src/main/resources/uploads/
