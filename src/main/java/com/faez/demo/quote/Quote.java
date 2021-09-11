@@ -12,6 +12,7 @@ import lombok.ToString;
 import javax.persistence.*;
 
 import static com.fasterxml.jackson.annotation.JsonProperty.Access.READ_ONLY;
+import static com.fasterxml.jackson.annotation.JsonProperty.Access.WRITE_ONLY;
 import static javax.persistence.GenerationType.AUTO;
 
 
@@ -35,13 +36,16 @@ public class Quote extends Auditable {
 
     private String quote;
 
-    @JoinColumn(nullable = true)
-    @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id")
+    @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
     @ManyToOne(optional = false,
             fetch = FetchType.EAGER,
             targetEntity = Movie.class,
             cascade = CascadeType.ALL)
+    @JsonProperty(access = WRITE_ONLY)
     private Movie show;
+
+    @Transient
+    private String showName;
 
     public Quote(String role, String actor, String quote, Movie show) {
         this.role = role;
@@ -64,5 +68,9 @@ public class Quote extends Auditable {
 
     public void setShow(Movie show) {
         this.show = show;
+    }
+
+    public String getShowName() {
+        return show.getTitle();
     }
 }

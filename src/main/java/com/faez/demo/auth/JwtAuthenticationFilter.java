@@ -2,6 +2,7 @@ package com.faez.demo.auth;
 
 import com.auth0.jwt.JWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -35,13 +36,18 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         this.authenticationManager = authenticationManager;
     }
 
+
+    @SneakyThrows
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request,
-                                                HttpServletResponse response)
-            throws AuthenticationException {
+                                                HttpServletResponse response) throws AuthenticationException {
 
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
+        com.faez.demo.user.User credentials = new ObjectMapper().readValue(request.getInputStream(), com.faez.demo.user.User.class);
+
+        System.out.println(credentials);
+
+        String username = credentials.getUsername();
+        String password = credentials.getPassword();
 
         log.info("Username is {}", username);
         log.info("Password is {}", password);
@@ -62,9 +68,10 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String refresh_token = createRefreshToken(user, issuer);
 
 
-        Map<String, String> tokens = new HashMap<>();
+        Map<String, Object> tokens = new HashMap<>();
         tokens.put("access_token", access_token);
         tokens.put("refresh_token", refresh_token);
+        tokens.put("user", user);
         response.setContentType(APPLICATION_JSON_VALUE);
         new ObjectMapper().writeValue(response.getOutputStream(), tokens);
     }
@@ -85,4 +92,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .withIssuer(issuer)
                 .sign(JWT_ALGORITHM);
     }
+
+
 }
