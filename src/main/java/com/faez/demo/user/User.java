@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -31,7 +33,7 @@ import static javax.persistence.GenerationType.AUTO;
                 @UniqueConstraint(name = "user_email_unique", columnNames = "email")
         }
 )
-public class User {
+public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = AUTO)
@@ -49,6 +51,7 @@ public class User {
     private String password;
 
     @Column(nullable = false)
+    @Email
     private String email;
 
     private String avatar;

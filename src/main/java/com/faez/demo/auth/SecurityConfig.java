@@ -13,6 +13,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import static com.faez.demo.routes.ApiRoute.*;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
@@ -40,13 +43,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManagerBean());
         jwtAuthenticationFilter.setFilterProcessesUrl(LOGIN_API);
-        http.csrf().disable()
+        http.cors().and()
+                .csrf().disable()
                 .sessionManagement()
                 .sessionCreationPolicy(STATELESS)
                 .and()
-                .addFilter(jwtAuthenticationFilter)
-                .addFilterBefore(new JwtAuthorizationFilter(),
-                        UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests().antMatchers(AUTH_API + "/**").permitAll()
                 .antMatchers("/**").permitAll()
                 .antMatchers(JSON_DOCS_API + "/**").permitAll()
@@ -59,9 +60,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers(POST, USERS_API + "/**").hasAuthority(USER_WRITE.getPermission())
                 .anyRequest()
                 .authenticated()
+                .and()
+                .addFilter(jwtAuthenticationFilter)
+                .addFilterBefore(new JwtAuthorizationFilter(),
+                        UsernamePasswordAuthenticationFilter.class)
         ;
     }
 
+
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+
+        CorsConfiguration corsConfiguration = new CorsConfiguration().applyPermitDefaultValues();
+        source.registerCorsConfiguration("/**", corsConfiguration);
+
+        return source;
+    }
 
     @Bean
     @Override
