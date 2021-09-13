@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.faez</groupId>
-    <artifactId>demo</artifactId>
+    <artifactId>movie</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>demo</name>
-    <description>Demo project for Spring Boot</description>
+    <name>movie</name>
+    <description>movie app</description>
     <properties>
         <java.version>11</java.version>
     </properties>
@@ -107,7 +107,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <!--                            <mainClass>com.faez.DemoApplication</mainClass>-->
+
                         </manifest>
                     </archive>
                 </configuration>
